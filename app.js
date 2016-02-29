@@ -3,18 +3,24 @@ var options = {
   timeout: 5000,
 };
 
+var position = function() {
+  this.lat = "";
+  this.lon = "";
+}
+
 //weather api cal, celsius as default units
-function getWeatherParams(lat, lon, units = "metric"){
+function getWeatherParams(position, units = "metric"){
   return {
-    lat : lat,
-    lon : lon,
+    lat : position.lat,
+    lon : position.lon,
     APPID:  'a40a4d710830fea15c9ff1e9b8f833cb',
     units: units 
   }
 }
 
-var getWeather = function(lat, lon) {
-  weatherApiCall(lat, lon).done(function (response) {
+var getWeather = function(params) {
+  var weatherUrl = 'http://api.openweathermap.org/data/2.5/weather';
+  weatherApiCall(params, weatherUrl).done(function (response) {
     console.log(response);
     addCity(response.name);
     addCountry(response.sys);
@@ -27,9 +33,9 @@ var getWeather = function(lat, lon) {
 
 function success(pos) {
   var crd = pos.coords;
-  var lat = crd.latitude;
-  var lon = crd.longitude;
-  var params = getWeatherParams(lat, lon);
+  position.lat = crd.latitude;
+  position.lon = crd.longitude;
+  var params = getWeatherParams(position);
 
   getWeather(params);
 };
@@ -48,24 +54,31 @@ function addCountry(sys) {
 }
 
 function addTemperature(temperatureObj) {
-  $("#temperature").text(temperatureObj.temp + " °C");
+  var desc = $(".unit-selector.active").attr("data");
+  $("#temperature").text(Math.round(temperatureObj.temp) + " °" + desc);
 }
 
 function addWeather(weather){
   $("#weather-desc").text(weather.description);
+  addWeatherIcon(weather.icon);
 }
 
-function weatherApiCall(params){
+function addWeatherIcon(iconId){
+  var iconUrl = "http://openweathermap.org/img/w/"+iconId+ ".png"
+    $("#weather-img").attr("src", iconUrl);
+}
+
+function weatherApiCall(params, url){
 
   return $.ajax({
     async: "false",
     dataType : "json",
     type: "GET",
     headers: {
-      Accept: "application/json",
+      Accept: "application/json, image/png",
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    url: 'http://api.openweathermap.org/data/2.5/weather',
+    url: url,
     data : params,
     success: function(response) {
     },
@@ -75,9 +88,15 @@ function weatherApiCall(params){
 }
 
 $(".unit-selector").on("click", function(){
+  var unit = this.value;
+  var params = getWeatherParams(position, unit); 
+  params.unitDesc = this.getAttribute("data");
+  getWeather(params);
 
-var unit = this.value;
-navigator.geolocation.getCurrentPosition(success, error, options);
+  //remove active previous button
+  $(".unit-selector.active").removeClass("active");
+  //add active to pressed button
+  $(this).addClass("active");
 });
 
 

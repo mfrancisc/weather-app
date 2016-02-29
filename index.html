@@ -3,42 +3,40 @@
   <head>
     <title>Free Code Camp Weather App</title>
 
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-   
-   <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
   </head>
 
   <body>
-      <h1 id="heading" class="text-center">Wheather App</h1>
+    <header>
+      <h1> Wheather App</h1>
+    </header>
 
-      <div class="container container-table">
-        <div class="row vertical-center-row">
-          <div class="text-center col-xs-12 col-md-12 col-lg-12">
-            <div id="location-container" class="col col-xs-4 col-md-4 col-lg-4">
-              <h2 id="city"></h2>
-              <h3 id="country"></h3>
-            </div>
-
-            <div id="temperature-container" class="col col-xs-4 col-md-4 col-lg-4">
-              <div class="btn-group" role="group" aria-label="...">
-  <button type="button" value="metric" class="btn btn-default">Celsius</button>
-  <button type="button" value="imperial" class="btn btn-default">Fahrenheit</button>
-</div>
-              <h2 id="temperature"></h2>
-            </div>
-
-            <div id="weather-container" class="col col-xs-4 col-md-4 col-lg-4">
-              <h2 id="weather-desc"></h2>
-            </div>
-
+    <div class="flex-container">
+          <div id="location-container" class="Cnt-block">
+            <h2 id="city"></h2>
+            <h3 id="country"></h3>
           </div>
-        </div>
-      </div>
 
-      <script src="app.js" type="text/javascript" charset="utf-8">
-      </script>
+          <div id="temperature-container" class="Cnt-block">
+            <div class="btn-group" role="group">
+              <button type="button" data="C" value="metric" class="btn btn-default unit-selector active">Celsius</button>
+              <button type="button" data="F" value="imperial" class="btn btn-default unit-selector ">Fahrenheit</button>
+            </div>
+            <h2 id="temperature"></h2>
+          </div>
+
+          <div id="weather-container" class="Cnt-block">
+            <h2 id="weather-desc"></h2>
+            <img id="weather-img" />
+          </div>
+    </div>
+
+    <script src="app.js" type="text/javascript" charset="utf-8">
+    </script>
   </body>
 
 </html>

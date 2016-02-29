@@ -1,10 +1,35 @@
-html, body, .container-table {
+html {
     height: 100%;
+    font-size: 100%; 
 }
-.container-table {
-    display: table;
+
+body {
+  height: 100%;
+  background: #1192d3;
 }
-.vertical-center-row {
-    display: table-cell;
-    vertical-align: middle;
+
+header {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.flex-container {
+   height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.Cnt-block {
+  flex: 1;
+  text-align: center;
+  margin: auto;
+  font-size: 50px;
+}
+
+@media screen and (max-width: 480px) {
+ .flex-container > * {
+  flex-basis: 100%; 
+ }
 }
