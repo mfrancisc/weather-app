@@ -68,15 +68,14 @@ function addWeatherIcon(iconId){
     $("#weather-img").attr("src", iconUrl);
 }
 
-function weatherApiCall(params, url){
-
+function weatherApiCall(params, url, origin = ""){
   return $.ajax({
     async: "false",
     dataType : "json",
     type: "GET",
+    contentType: "application/x-www-form-urlencoded; charset=utf-8", 
     headers: {
-      Accept: "application/json, image/png",
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Accept" : "application/json, image/png",
     },
     url: url,
     data : params,
