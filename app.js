@@ -21,7 +21,6 @@ function getWeatherParams(position, units = "metric"){
 var getWeather = function(params) {
   var weatherUrl = 'http://api.openweathermap.org/data/2.5/weather';
   weatherApiCall(params, weatherUrl).done(function (response) {
-    console.log(response);
     addCity(response.name);
     addCountry(response.sys);
     addTemperature(response.main);
