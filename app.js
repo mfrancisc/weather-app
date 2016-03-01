@@ -4,15 +4,13 @@ var options = {
 };
 
 var position = function() {
-  this.lat = "";
-  this.lon = "";
+  this.city = "";
 }
 
 //weather api cal, celsius as default units
-function getWeatherParams(position, units = "metric"){
+function getWeatherParams(city, units){
   return {
-    lat : position.lat,
-    lon : position.lon,
+    q : city,
     APPID:  'a40a4d710830fea15c9ff1e9b8f833cb',
     units: units 
   }
@@ -21,8 +19,6 @@ function getWeatherParams(position, units = "metric"){
 var getWeather = function(params) {
   var weatherUrl = 'http://api.openweathermap.org/data/2.5/weather';
   weatherApiCall(params, weatherUrl).done(function (response) {
-    addCity(response.name);
-    addCountry(response.sys);
     addTemperature(response.main);
     addWeather(response.weather[0]);
   }).fail(function(){
@@ -30,26 +26,30 @@ var getWeather = function(params) {
   });
 }
 
-function success(pos) {
-  var crd = pos.coords;
-  position.lat = crd.latitude;
-  position.lon = crd.longitude;
-  var params = getWeatherParams(position);
-
+function getLocalWeather(){
+var ipInfoUrl = "http://ipinfo.io/json";
+  weatherApiCall({}, ipInfoUrl).done(function (response) {
+    position.city = response.city;
+    addCity(response.city + ' (' + response.postal + ')');
+    addRegion(response.region);
+    addCountry(response.country);
+    var units = "metric";
+  var params = getWeatherParams(response.city, units);
   getWeather(params);
-};
-
-function error(err) {
-  console.warn('ERROR(' + err.code + '): ' + err.message);
-};
-navigator.geolocation.getCurrentPosition(success, error, options);
+  });
+}
+getLocalWeather();
 
 function addCity(cityName) {
   $("#city").text(cityName);
 }
 
-function addCountry(sys) {
-  $("#country").text(sys.country);
+function addRegion(region) {
+  $("#region").text(region);
+}
+
+function addCountry(country) {
+  $("#country").text(country);
 }
 
 function addTemperature(temperatureObj) {
@@ -67,7 +67,7 @@ function addWeatherIcon(iconId){
     $("#weather-img").attr("src", iconUrl);
 }
 
-function weatherApiCall(params, url, origin = ""){
+function weatherApiCall(params, url){
   return $.ajax({
     async: "false",
     dataType : "json",
@@ -87,7 +87,7 @@ function weatherApiCall(params, url, origin = ""){
 
 $(".unit-selector").on("click", function(){
   var unit = this.value;
-  var params = getWeatherParams(position, unit); 
+  var params = getWeatherParams(position.city, unit); 
   params.unitDesc = this.getAttribute("data");
   getWeather(params);
 
