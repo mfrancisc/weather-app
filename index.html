@@ -16,22 +16,28 @@
     </header>
 
     <div class="flex-container">
-          <div id="location-container" class="Cnt-block bg-primary">
+          <div id="location-container" class="Cnt-block">
+            <div class="flex-row">
             <h2 id="city"></h2>
             <h3 id="country"></h3>
           </div>
+          </div>
 
-          <div id="temperature-container" class="Cnt-block bg-primary">
+          <div id="temperature-container" class="Cnt-block">
+            <div class="flex-row">
             <div class="btn-group temp-btn" role="group">
               <button type="button" data="C" value="metric" class="btn btn-default unit-selector active">Celsius</button>
               <button type="button" data="F" value="imperial" class="btn btn-default unit-selector ">Fahrenheit</button>
             </div>
             <h2 id="temperature"></h2>
           </div>
+          </div>
 
-          <div id="weather-container" class="Cnt-block bg-primary">
+          <div id="weather-container" class="Cnt-block" >
+            <div class="flex-row">
             <h2 id="weather-desc"></h2>
             <img id="weather-img" />
+            </div>
           </div>
     </div>
 
